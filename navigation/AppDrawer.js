@@ -1,4 +1,5 @@
 import React from 'react';
+import { useWindowDimensions } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -10,10 +11,12 @@ import { COLORS } from '../styles/ProjectStyles';
 const Drawer = createDrawerNavigator();
 
 export default function AppDrawer() {
+  const { width } = useWindowDimensions();
   return (
     <Drawer.Navigator
       screenOptions={{
         headerTitleAlign: 'center',
+        drawerStyle: { width: Math.min(320, width * 0.85) },
         headerTintColor: COLORS.dark,
         headerStyle: {
           backgroundColor: '#FFFFFF',
@@ -31,6 +34,7 @@ export default function AppDrawer() {
         component={MainTabs}
         options={{
           title: 'CAT WORLD · โลกของแมว',
+          headerTitle: width < 480 ? 'CAT WORLD' : 'CAT WORLD · โลกของแมว',
           drawerLabel: 'หน้าหลัก',
           drawerIcon: ({ color, size }) => (
             <Ionicons
