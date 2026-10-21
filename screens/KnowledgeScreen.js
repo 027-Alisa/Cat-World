@@ -285,7 +285,7 @@ const local = StyleSheet.create({
   },
 
   card: {
-    flex: 1,
+    flexGrow: 1,
     minHeight: 300,
     padding: 23,
     borderRadius: 25,
