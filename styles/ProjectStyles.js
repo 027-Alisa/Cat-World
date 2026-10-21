@@ -1,6 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export const COLORS = {
+  primary: '#7053B5',
+  lavender: '#EDE6FA',
+  pink: '#FCE8EF',
+  mint: '#E4F4EC',
+  peach: '#FFF0DF',
   green: '#43876A',
   dark: '#19364A',
   background: '#F6F7FC',
@@ -100,11 +105,14 @@ const styles = StyleSheet.create({
   },
   stats: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 12,
     marginTop: 20,
   },
   stat: {
-    flex: 1,
+    flexGrow: 1,
+    flexBasis: 130,
+    minWidth: 0,
     backgroundColor: '#FFFFFF',
     borderRadius: 18,
     padding: 17,
