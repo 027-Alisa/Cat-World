@@ -55,7 +55,8 @@ export default function TeamScreen() {
               styles.detailBox,
               {
                 marginTop: 0,
-                height: '100%',
+                flexGrow: 1,
+                minWidth: 0,
                 alignItems: 'center',
                 paddingVertical: 28,
               },
