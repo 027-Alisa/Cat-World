@@ -14,89 +14,48 @@ import styles from '../styles/ProjectStyles';
 // พื้นที่หน้าจอ รองรับมือถือ แท็บเล็ต และคอม
 // ========================================
 
+// Page keeps scrolling bounded; cards keep their natural content height.
 export function Page({ children }) {
   const { width } = useWindowDimensions();
-
   return (
     <ScrollView
-      style={styles.page}
+      style={[styles.page, { minHeight: 0 }]}
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
+      contentInsetAdjustmentBehavior="automatic"
     >
-      <View
-        style={{
-          width: '100%',
-          maxWidth: 1160,
-          alignSelf: 'center',
-          padding: width < 400 ? 14 : 24,
-          paddingBottom: 40,
-        }}
-      >
+      <View style={{ width: '100%', maxWidth: 1160, alignSelf: 'center',
+        paddingHorizontal: width < 400 ? 14 : 24, paddingTop: 16, paddingBottom: 40 }}>
         {children}
       </View>
     </ScrollView>
   );
 }
 
-// ========================================
-// จัดจำนวนคอลัมน์ตามพื้นที่หน้าจอ
-// ========================================
-
-export function ResponsiveGrid({ items, renderItem }) {
-  const { width: windowWidth } = useWindowDimensions();
+export function ResponsiveGrid({ items = [], renderItem }) {
+  const { width: windowWidth, fontScale } = useWindowDimensions();
   const [measuredWidth, setMeasuredWidth] = useState(0);
-
-  const availableWidth =
-    measuredWidth ||
-    Math.max(0, Math.min(windowWidth - 48, 1112));
-
-  const columns =
-    availableWidth >= 1000
-      ? 3
-      : availableWidth >= 620
-        ? 2
-        : 1;
-
-  const gap = 16;
-
-  // ปัดลงเล็กน้อย ป้องกันการ์ดเกินแถวจากเศษทศนิยม
-  const itemWidth =
-    Math.floor(
-      Math.max(
-        0,
-        (availableWidth - gap * (columns - 1)) / columns
-      ) * 100
-    ) / 100;
-
+  const availableWidth = measuredWidth || Math.max(0,
+    Math.min(windowWidth, 1160) - (windowWidth < 400 ? 28 : 48));
+  const scale = Math.max(1, fontScale);
+  const columns = availableWidth >= 1000 * scale ? 3 : availableWidth >= 620 * scale ? 2 : 1;
+  const rows = [];
+  for (let i = 0; i < items.length; i += columns) rows.push(items.slice(i, i + columns));
   return (
-    <View
-      onLayout={(event) => {
-        const nextWidth = event.nativeEvent.layout.width;
-
-        setMeasuredWidth((previous) =>
-          Math.abs(previous - nextWidth) > 1
-            ? nextWidth
-            : previous
-        );
-      }}
-      style={{
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap,
-        alignItems: 'stretch',
-        marginTop: 16,
-      }}
-    >
-      {items.map((item, index) => (
-        <View
-          key={item.id}
-          style={{
-            width: itemWidth,
-            minWidth: 0,
-          }}
-        >
-          {renderItem(item, index)}
+    <View onLayout={({ nativeEvent }) => {
+      const next = nativeEvent.layout.width;
+      setMeasuredWidth(previous => Math.abs(previous - next) > 1 ? next : previous);
+    }} style={{ width: '100%', marginTop: 16, gap: 16 }}>
+      {rows.map((row, rowIndex) => (
+        <View key={rowIndex} style={{ flexDirection: 'row', alignItems: 'stretch', gap: 16 }}>
+          {row.map((item, index) => (
+            <View key={item.id ?? rowIndex * columns + index}
+              style={{ width: Math.floor(Math.max(0, (availableWidth - 16 * (columns - 1)) / columns) * 100) / 100,
+                minWidth: 0 }}>
+              {renderItem(item, rowIndex * columns + index)}
+            </View>
+          ))}
         </View>
       ))}
     </View>
@@ -257,7 +216,7 @@ export function CatCard({ item, navigation }) {
         styles.catCard,
         {
           marginTop: 0,
-          flex: 1,
+          flexGrow: 1,
         },
       ]}
       onPress={() =>
@@ -274,7 +233,7 @@ export function CatCard({ item, navigation }) {
       <View
         style={[
           styles.cardBody,
-          { flex: 1 },
+          { flexGrow: 1 },
         ]}
       >
         <Text style={styles.label}>
