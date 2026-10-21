@@ -21,8 +21,8 @@ import styles, {
 } from '../styles/ProjectStyles';
 
 export default function HomeScreen({ navigation }) {
-  const { width } = useWindowDimensions();
-  const wide = width >= 900;
+  const { width, fontScale } = useWindowDimensions();
+  const wide = width >= 900 * Math.max(1, fontScale);
 
   const menus = [
     {
@@ -83,7 +83,7 @@ export default function HomeScreen({ navigation }) {
             source={require('../assets/images/persian.jpg')}
             style={{
               width: '100%',
-              height: wide ? 380 : 260,
+              aspectRatio: wide ? 1.2 : 1.5,
             }}
             resizeMode="cover"
             accessibilityLabel="แมวเปอร์เซีย หน้าปกโลกของแมว"
@@ -92,8 +92,9 @@ export default function HomeScreen({ navigation }) {
 
         <View
           style={{
-            flex: 1,
-            padding: wide ? 32 : 24,
+            ...(wide ? { flex: 1 } : { width: '100%' }),
+            minWidth: 0,
+            padding: wide ? 32 : 20,
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -193,7 +194,7 @@ export default function HomeScreen({ navigation }) {
             accessibilityRole="button"
             accessibilityLabel={item.title}
             style={({ pressed }) => ({
-              flex: 1,
+              flexGrow: 1,
               minHeight: 210,
               padding: 24,
               borderRadius: 24,
