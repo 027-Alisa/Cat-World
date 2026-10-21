@@ -1,23 +1,38 @@
-import 'react-native-gesture-handler';
-
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-import RootStack from './navigation/RootStack';
-import { FavoriteProvider } from './context/FavoriteContext';
-
-export default function App() {
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <FavoriteProvider>
-          <NavigationContainer>
-            <RootStack />
-          </NavigationContainer>
-        </FavoriteProvider>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
-  );
+{
+  "expo": {
+    "name": "cat_world",
+    "slug": "snack-89261c5c-e8d5-4166-a8d5-3fb066185ace",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.alisa.catworld"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ed9f0b2d-95e7-426d-95df-f70c4e100aab"
+      }
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
 }
