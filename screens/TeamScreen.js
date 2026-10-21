@@ -89,9 +89,6 @@ export default function TeamScreen() {
               สมาชิกทั้งหมด {MEMBERS.length} คน
             </Text>
 
-            <Text style={localStyles.version}>
-              หน้าผู้จัดทำ รุ่นปรับปรุง 2
-            </Text>
           </View>
 
           {rows.map((row, rowIndex) => (
